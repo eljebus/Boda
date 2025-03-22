@@ -1,12 +1,104 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mi App Node.js</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi App Node.js</title>
+    
+    <!-- Manifiesto para PWA -->
+    <link rel="manifest" href="/manifest.json">
+    
+    <!-- Icono para la aplicación -->
+    <link rel="icon" href="/icons/icon-192x192.png">
+    <!-- CSS de Materialize -->
+    <link href="css/materialize.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Meta para PWA en dispositivos móviles -->
+    <meta name="theme-color" content="#ffffff">
 </head>
 <body>
-  <h1>¡Hola, mundo!</h1>
-  <p>Esta es mi primera aplicación con Node.js y HTML.</p>
+    <div class="stars"></div> <!-- Fondo de estrellas -->
+    <section id="main">
+
+        <h1>
+            Fátima & Jesús
+        </h1>
+
+        <div class="redondo z-depth-2">
+
+            <img  id="luna" src="img/luna.webp" class="rounded" alt="">
+            
+            <img  id="principal"src="img/foto.jfif" class="rounded" alt="">
+           
+
+        </div>
+
+        <div   id="reloj">
+
+                <div class="countElement z-depth-1">
+                    <span id="days">00</span>
+                    <p>DÍAS</p>
+                </div>
+
+                <div class="countElement z-depth-1">
+                    <span id="hours">00</span>
+                    <p>HORAS</p>
+                </div>
+                <div class="countElement z-depth-1">
+                    <span id="minutes">00</span>
+                    <p>MINUTOS</p>
+                </div>
+
+            
+        </div>
+
+        <div id="controles">
+
+            <div class="control">
+                <i class="material-icons">camera_alt</i>
+                <p>Comparte tus momentos</p>
+
+            </div>
+
+            <div class="control">
+                <i class="material-icons">create</i>
+                <p>Escribe un recuerdo</p>
+
+            </div>
+
+
+            <div class="control">
+                <i class="material-icons">access_time</i>
+                <p>Plan de la noche</p>
+
+            </div>
+
+        </div>
+        
+
+    </section>
+    
+    
+   
+
+    <!-- Registro del Service Worker -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/service-worker.js')
+                .then(registration => {
+                    console.log('Service Worker registrado con éxito:', registration);
+                })
+                .catch(error => {
+                    console.error('Error al registrar el Service Worker:', error);
+                });
+        }
+    </script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="js/materialize.js"></script>
+    <script src="js/efectos.js"></script>
+
 </body>
 </html>

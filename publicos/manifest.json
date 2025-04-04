@@ -1,0 +1,25 @@
+{
+    "short_name": "Boda FyJ",
+    "name": "Boda Fátima y Jesús",
+    "description": "Aplicación para la boda de Fátima y Jesús",
+    "icons": [
+      {
+        "src": "/publicos/img/icon-192x192.png",
+        "type": "image/png",
+        "sizes": "192x192",
+        "purpose": "any maskable"
+      },
+      {
+        "src": "/publicos/img/icon-512x512.png",
+        "type": "image/png",
+        "sizes": "512x512",
+        "purpose": "any maskable"
+      }
+    ],
+    "start_url": "/",
+    "background_color": "#ffffff",
+    "display": "standalone",
+    "scope": "/",
+    "theme_color": "#000000",
+    "orientation": "portrait"
+}

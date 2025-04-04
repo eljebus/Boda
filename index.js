@@ -6,7 +6,7 @@ const https = require('https'); // Para HTTPS
 const fs = require('fs'); // Para certificados SSL
 const schedule = require('node-schedule'); // Para programar tareas
 
-const port = process.env.PORT || 3000;
+const port = 8080;
 const app = express();
 
 // 1. Configuración VAPID para notificaciones push
@@ -81,21 +81,27 @@ try {
   const certPath = path.join(__dirname, 'certificados', 'cert.crt');
   const caPath = path.join(__dirname, 'certificados', 'ca.crt');
 
-  if (fs.existsSync(keyPath) && fs.existsSync(certPath) && fs.existsSync(caPath)) {
-    const sslOptions = {
-      key: fs.readFileSync(keyPath),
-      cert: fs.readFileSync(certPath),
-      ca: fs.readFileSync(caPath)
-    };
-    server = https.createServer(sslOptions, app);
-    console.log('Servidor HTTPS creado');
-  } else {
-    console.log('Certificados no encontrados, usando HTTP');
-    server = require('http').createServer(app);
+  console.log('Verificando certificados...');
+  console.log('Ruta key:', keyPath);
+  console.log('Ruta cert:', certPath);
+  console.log('Ruta ca:', caPath);
+
+  if (!fs.existsSync(keyPath) || !fs.existsSync(certPath) || !fs.existsSync(caPath)) {
+    console.error('Certificados SSL no encontrados. Verifica que los archivos existan en la carpeta certificados/');
+    process.exit(1); // Terminar si no hay certificados
   }
+
+  const sslOptions = {
+    key: fs.readFileSync(keyPath),
+    cert: fs.readFileSync(certPath),
+    ca: fs.readFileSync(caPath)
+  };
+  
+  server = https.createServer(sslOptions, app);
+  console.log('Servidor HTTPS creado');
 } catch (error) {
   console.error('Error al configurar SSL:', error);
-  server = require('http').createServer(app);
+  process.exit(1); // Terminar si hay error con los certificados
 }
 
 // 8. Programar notificaciones
@@ -166,16 +172,10 @@ if (fs.existsSync(notificacionesPath)) {
   }
 }
 
-
-/*server.listen(port, '0.0.0.0', () => {
-  console.log(`Servidor corriendo en https://0.0.0.0:${port}`);
-  console.log('Clave pública VAPID para notificaciones:', vapidKeys.publicKey);
-});*/
-
 // 9. Iniciar servidor
 server.listen(port, '0.0.0.0', () => {
   const fechaActual = new Date();
-  console.log(`Servidor corriendo en ${server instanceof https.Server ? 'https' : 'http'}://0.0.0.0:${port}`);
+  console.log(`Servidor HTTPS corriendo en https://0.0.0.0:${port}`);
   console.log(`Fecha y hora del servidor: ${fechaActual.toLocaleString()}`);
   console.log(`Fecha ISO: ${fechaActual.toISOString()}`);
   console.log('Clave pública VAPID para notificaciones:', vapidKeys.publicKey);

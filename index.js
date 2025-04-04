@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path');
 const userRoutes = require('./rutas');
 const webPush = require('web-push'); // Para notificaciones push
-const https = require('https'); // Para HTTPS
+const https = require('https'); // Para HTTPS (no lo usaremos ahora)
 const fs = require('fs'); // Para certificados SSL
 const schedule = require('node-schedule'); // Para programar tareas
 
@@ -74,7 +74,7 @@ app.get('/manifest.json', (req, res) => {
 // 6. Rutas de la aplicación
 app.use('/', userRoutes);
 
-// 7. Configuración SSL
+// 7. Si tienes certificados SSL, usa HTTPS (opcional, en este caso no lo usamos)
 let server;
 try {
   const keyPath = path.join(__dirname, 'certificados', 'cert.key');
@@ -91,11 +91,11 @@ try {
     console.log('Servidor HTTPS creado');
   } else {
     console.log('Certificados no encontrados, usando HTTP');
-    server = require('http').createServer(app);
+    server = require('http').createServer(app); // Usamos HTTP en lugar de HTTPS
   }
 } catch (error) {
   console.error('Error al configurar SSL:', error);
-  server = require('http').createServer(app);
+  server = require('http').createServer(app); // Si hay un error en la configuración SSL, usamos HTTP
 }
 
 // 8. Programar notificaciones

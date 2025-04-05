@@ -1,6 +1,6 @@
 window.onload = function () {
     const currentDate = new Date();
-    const targetDate = new Date('June 7, 2024 16:30:00');
+    const targetDate = new Date('June 7, 2023 16:30:00');
 
     const albumElement = document.querySelector('#album');
     const textosElement = document.querySelector('#textos');
